@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 10:46:58 by zdasser           #+#    #+#             */
-/*   Updated: 2022/05/21 10:46:59 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/05/21 14:53:18 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_all
 
 void parse(char s);
 int	handle_errors(char *argv);
-int handle_characters(char *s);
+int handle_characters(char *s, int i);
 int	handle_quotes(char *s);
 int	ft_cmp(char *s, char c);
 #endif

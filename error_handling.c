@@ -37,8 +37,6 @@ int	ft_opp_cmp(char *s, int i, char c)
 }
 int	handle_quotes(char *s)
 {	
-	int count;
-	int check;
 	int i;
 
 	i = 0;
@@ -47,9 +45,7 @@ int	handle_quotes(char *s)
 		if(s[i] == '"' || s[i] == 39)
 		{
 			if(ft_cmp(s, s[i]) == 2)
-			{	if(!ft_opp_cmp(s, ft_cmp(s, s[i]), s[i]))
 					break;
-			}
 			else
 				return(0);
 		}
@@ -58,11 +54,8 @@ int	handle_quotes(char *s)
 	return(1);
 }
 
-int handle_characters(char *s)
+int handle_characters(char *s, int i)
 {
-	int	i;
-
-	i = 0;
 	while(s[i])
 	{
 		if(s[i] == ';' || s[i] == 92)
@@ -73,57 +66,77 @@ int handle_characters(char *s)
 }
 
 
-
-
-int check_error(char *argv, int i, char c)
+int handle_error(int *i, int *j, char *argv)
 {
-	int	count;
+	int error;
 
-	count = 0;
-	while(argv[i])
-	{
-		
-	}
-	return(i);
-}
-
-void handle_error(int *i, int *j, char *argv, char c)
-{
-	while(argv[*i] == c)
+	error = 0;
+	char c1 = '>';
+	char c2 = '<';
+	while(argv[*i] == c1 || argv[*i] == c2)
 	{
 		*i += 1;
 		*j += 1;
+		if(argv[*i] == c1 && argv[*i + 1 == c2])
+			error = 1;
 	}
+	if(argv[*i] == '\0')
+		error = 1;
+	return(error);
 }
 
-int handle_redirections(char *argv)
+int handle_redirections(char *argv, int i)
 {
-	int	i;
 	int count;
 
 	count = 0;
-	i = 0;
 	while(argv[i])
 	{
 		if(argv[i] == '>')
-			handle_error(&i, &count, argv, '>');
-		if(count > 2)
-			return(0);
+		{
+			if( handle_error(&i, &count, argv) || count > 2)
+				return(0);
+		}
 		count = 0;
 		if(argv[i] == '<')
-			handle_error(&i, &count, argv, '<');
-		if(count > 2)
-			return(0);
+		{
+			if( handle_error(&i, &count, argv) || count > 2)
+				return(0);
+		}
 		else
 			i++;
 	}
 	return(1);
 }
 
+char	quotes_exit(char *argv)
+{
+	int	i;
+
+	i = 0;
+	while(argv[i] == '"' || argv[i] == 39)
+		return(argv[i]);
+	return(0);
+}
+
 int	handle_errors(char *argv)
 {
+	int i;
+
+	i = 0;
+	if(quotes_exit(argv) != 0)
+	{	if(!handle_quotes(argv))
+		{
+			write(1, "Error\n", 24);
+			return(0);
+		}
+		i++;
+		while(argv[i] != quotes_exit(argv))
+			i++;
+	}
 	
-	if(!handle_quotes(argv) || !handle_characters(argv) || !handle_redirections(argv))
+	if(i == ft_strlen(argv)|| !handle_characters(argv, i) || \
+	!handle_redirections(argv, i))
 	{
 		write(1, "Error\n", 24);
 		return(0);
