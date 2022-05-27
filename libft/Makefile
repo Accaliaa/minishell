@@ -1,4 +1,4 @@
-CC = cc
+CC = @cc
 CFLAGS = -Wall -Wextra -Werror
 
 SRCS = ft_atoi.c \
@@ -54,14 +54,14 @@ $(NAME): $(OBJS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
-	ar csr $(NAME) $@
+	@ar csr $(NAME) $@
 
 bonus: $(BNOBJ) $(NAME)
 
 clean:
-	rm -f *.o
+	@rm -f *.o
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
