@@ -21,29 +21,27 @@ typedef struct s_all
     int hd;
    	int *inf;
     int *outf;
+	char **delimiter;
 } t_all;
 
 typedef struct s_p {
-	int		infile;
-	int		outfile;
-	char	path;
 	char	**splitpaths;
-	int		**pipes;
-	int		size;
-	int		id;
-	char	**env_hold;
+	char	**args_hold;
 	int	exit_value_hold;
 }	t_pipe;
 
-void parse(char s);
-int	handle_errors(char *argv);
-int handle_characters(char *s, int i);
-int	handle_quotes(char *s);
-int	ft_cmp(char *s, char c);
-int check_qoute(char *str);
-void converter(char **envp,t_all *all);
-t_all *ft_init(t_all *all);
-void	check_redirections(t_list *list);
-void	ft_exec(t_list *l, char **env);
+void	parse(char s);
+int		handle_errors(char *argv);
+int		handle_characters(char *s, int i);
+int		handle_quotes(char *s);
+int		ft_cmp(char *s, char c);
+int 	check_quote(char *str);
+void 	converter(char **envp,t_all *all);
+t_all 	*ft_init(t_all *all);
+int		check_redirections(t_list *list);
+void	ft_exec (t_list *l, char **env);
 void	multiprocessing(t_list *l, char **envp);
+void	check_outfiles(t_list *list);
+void	check_heredoc(t_list *l);
+int		ft_strcmp(const char *s1, const char *s2);
 #endif

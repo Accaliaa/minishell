@@ -6,28 +6,28 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:11:06 by omeslall          #+#    #+#             */
-/*   Updated: 2022/05/27 17:42:20 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/04 18:49:09 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_sigint(int sig)
-{
-	if (sig != SIGINT)
-		return ;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+// void	handle_sigint(int sig)
+// {
+// 	if (sig != SIGINT)
+// 		return ;
+// 	printf("\n");
+// 	rl_on_new_line();
+// 	rl_replace_line("", 0);
+// 	rl_redisplay();
+// }
 
-void	handle_sigquit(int sig)
-{
-	if (sig != SIGQUIT)
-		return ;
-	rl_on_new_line();
-}
+// void	handle_sigquit(int sig)
+// {
+// 	if (sig != SIGQUIT)
+// 		return ;
+// 	rl_on_new_line();
+// }
 
 
 t_list *ft_filtre(char *line, t_all *all, char **env)
@@ -37,7 +37,7 @@ t_list *ft_filtre(char *line, t_all *all, char **env)
 	char **pipe;
 	char **sp;
 	int i = 0;
-	
+	(void)env;
 
 	l = NULL;
 	temp = NULL;
@@ -52,30 +52,33 @@ t_list *ft_filtre(char *line, t_all *all, char **env)
 		ft_lstadd_back(&l,temp);
 		i++;
 	}
+	printf("parse done\n");
 	check_redirections(l);
-    ft_exec(l, env);
+	check_outfiles(l);
+	check_heredoc(l);
 	return(l);
 }
-
 void    minishell(char *line,t_all *all, char **env)
 {
 	t_list *filtre;
 	
 	filtre = ft_filtre(line,all, env);
+	
+    ft_exec(filtre, env);
 }
 
-int main(int ac,char **av,char **envp)
+int main(int ac,char **av,char **env)
 {
 	char *line;
 	t_all *all;
 
-	if (!av || !envp)
+	if (!av || !env)
 		return(0);
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, handle_sigquit);
+	//signal(SIGINT, handle_sigint);
+	//signal(SIGQUIT, handle_sigquit);
 	all = malloc(sizeof(t_all));
-	all->envp = envp;
-	converter(envp, all);
+	all->envp = env;
+	converter(env, all);
 	if (ac == 1)
 	{    
 		while(1)
@@ -87,7 +90,7 @@ int main(int ac,char **av,char **envp)
 				add_history (line);
 			if(handle_errors(line))
 			{
-				minishell(line,all, envp);
+				minishell(line,all, env);
 			}
 		}
 	}

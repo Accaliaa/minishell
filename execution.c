@@ -6,96 +6,27 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:29:17 by zdasser           #+#    #+#             */
-/*   Updated: 2022/05/27 20:32:14 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/04 18:53:07 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 #include<unistd.h>
+
 int	ft_strcmp(const char *s1, const char *s2)
 {
-	while (*s1 != '\0' || *s2 != '\0')
-	{
-		if (*s1 != *s2)
-			return (*(unsigned char *)s1 - *(unsigned char *)s2);
-		s1++;
-		s2++;
-	}
-	return (0);
+	size_t i;
+	
+	i = 0;
+	if(ft_strlen(s1) != ft_strlen(s2))
+		return(0);
+	while (s1[i] != '\0' && s2[i] != '\0' && s2[i] == s1[i])
+		i++;
+	if (i < ft_strlen(s1))
+		return (0);
+	return (1);
 }
 
-// void	executing(t_pipe *p, char **args)
-// {
-// 	int	i;
-// 	char *tmp;
-// 	char *cmd;
-
-// 	fprintf(stdout,"this is execution\n");
-// 	i = 0;
-	
-// 	while (p->splitpaths[i])
-// 		{
-// 			tmp = ft_strjoin(p->splitpaths[i], "/");
-// 			cmd = ft_strjoin(tmp, args[0]);
-// 			free(tmp);
-// 			if (!access(cmd, X_OK))
-// 				execve(cmd, args, p->env_hold);
-// 			i++;
-// 		}
-// }
-
-// void	forking(int in, int out, char **args, t_pipe *p)
-// {
-// 	int		child;
-	
-// 	child = fork();
-//  	if (child == 0)
-//  	{
-//  		if (in != 0)
-//  		{
-//  			dup2 (in, 0);
-// 			close (in);
-//  		}
-//  		if (out != 1)
-//  		{
-//  			dup2 (out, 1);
-// 			close (out);
-//  		}
-// 		executing(p, args);
-// 	}
-// }
-
-
-// void	exit_statu(t_list *l , int re)
-// {
-// 	if(!ft_strcmp(((t_all *)l->content)->cmd[0], "$?") && ft_lstsize(l) == 1)
-// 	{
-// 		printf("command not found %i\n", re);
-// 	}
-// }
-
-// void	ft_exec(t_list *l, int re, char **env)
-// {
-
-// 	t_pipe p;
-// 	get_path(env, &p);	
-// 	int	i;
-// 	int in;
-// 	i = 0;
-// 	in = 0;
-// 	p.env_hold = env;
-// 	//exit_statu(l, re);
-// 	while(l)
-// 	{
-// 		pipe(p.fd);
-// 		forking(in, p.fd[1], ((t_all *)l->content)->cmd ,&p);
-// 		close(p.fd[1]);
-// 		in = p.fd[0];
-// 		i++;
-// 		l = l->next;
-// 	}
-// 	while(wait(&re) != -1);
-// }
 void	get_path(char **env, t_pipe *p)
 {
 	int	i;
@@ -114,94 +45,112 @@ void	get_path(char **env, t_pipe *p)
 		exit (write(2, "error\n", 6));
 }
 
- void	executing(t_pipe *p, char **args)
-{
-	int	i;
-	char *tmp;
-	char *cmd;
-
-	i = 0;
-	  printf("edrgergre\n");
-	while (p->splitpaths[i])
-		{
-			tmp = ft_strjoin(p->splitpaths[i], "/");
-			cmd = ft_strjoin(tmp, args[0]);
-			free(tmp);
-			if (!access(cmd, X_OK))
-				if(execve(cmd, args, p->env_hold))
-					exit(0);
-			i++;
-		}
-}
-
-// void spawn_proc (int in, int out)
+// void get_args(int *se, t_pipe *p, char **s)
 // {
- 
-//     //   if (in != 0)
-//     //     {
-          
-//     //       close (in);
-      	
+// 	int	i;
+// 	int j;
+
+// 	j = 0;
+// 	i = se[0];
+// 	p->args_hold = (char **)malloc(sizeof(char *) * (se[1] - se[0] + 1));
+// 	while(i <= se[1] && !ft_cmp(s[j], '<'))
+// 	{
+// 		p->args_hold[j] = s[i];
+// 		i++;
+// 		j++;
+// 	}
 // }
 
 
+// void get_start_end(t_pipe *p, char **s)
+// {
+// 	int i;
+// 	int	j;
+// 	int se[2];
+
+// 	j = 0;
+// 	i = 0;
+// 	while (s[i] && ft_cmp(s[i], '<'))
+// 	{
+// 		if (ft_cmp(s[i], '<') && ft_strlen(s[i]) == 1)
+// 	  		i++;
+// 	 	i++;
+// 	}
+// 	j = i;
+// 	while (s[j] && !ft_cmp(s[j], '>') && !ft_cmp(s[j], '<'))
+// 	 	j++;
+	
+// 	se[0] = i;
+// 	se[1] = j;
+// 	get_args(se, p, s);
+// }
+
 void ft_exec (t_list *l, char **env)
 {
-  int fd [2];
-  t_pipe p;
+   int fd [2];
+   t_pipe p;
    int i = 0;
    int j = 0;
    char *tmp;
-  char *cmd;
-  int n = ft_lstsize(l);
-  int in = 0;
-  get_path(env, &p);
+   char *cmd;
+   int n = ft_lstsize(l);
+   int in = 0;
+   int	node = 0;
+   get_path(env, &p);
 	while(l)
 	{
 		pipe(fd);
 		i = 0;
 		if(fork() == 0)
-		 {
-			 if(n == 1)
-			 {
+		{
+			if(n == 1)
+			{
 				dup2(((t_all *)l->content)->inf[0], 0);
-		 	  close (fd[1]);
-			  close (fd[0]);
-			 }
+				close (fd[1]);
+				close (fd[0]);
+			}
 			else if(j == 0 && n > 1)
-			 {
-			  dup2(((t_all *)l->content)->inf[0], 0);
-			  dup2(fd[1], 1);
-		 	  close (fd[1]);
-			  close (fd[0]);
-			 }
-			 
+			{
+				dup2(((t_all *)l->content)->inf[0], 0);
+				dup2(fd[1], 1);
+				close (fd[1]);
+				close (fd[0]);
+			}
 			if(j < n - 1)
-			  {dup2(in, 0);
-			  dup2(fd[1], 1);
-		 	  close (fd[1]);
-			  close (fd[0]);}
+			{
+				dup2(in, 0);
+				dup2(fd[1], 1);
+				close (fd[1]);     
+				close (fd[0]);
+			}
 			else
 			{
-			  dup2(in, 0);
-		 	  close (fd[1]);
-			  close (fd[0]);
+				dup2(in, 0);
+				dup2(((t_all *)l->content)->outf[0], 1);
+				close (fd[1]);
+				close (fd[0]);
 			}
-			  
 		 	while (p.splitpaths[i])
 		 	{
 		 		tmp = ft_strjoin(p.splitpaths[i], "/");
-		 		cmd = ft_strjoin(tmp, ((t_all *)l->content)->cmd[0]);
+				if( j == 0)
+					cmd = ft_strjoin(tmp, ((t_all *)l->content)->cmd[node]);
+				else
+					cmd = ft_strjoin(tmp, ((t_all *)l->content)->cmd[0]);
 		 		free(tmp);
 		 		if (!access(cmd, X_OK))
-		 		execve(cmd, ((t_all *)l->content)->cmd, env);
+		 			execve(cmd,((t_all *)l->content)->cmd , env);
 		 		i++;
 		 	}
-		 }
-		in = fd[0];
+			printf("command not found \n");
+			exit(126);
+		}
+		in = dup(fd[0]);
 		close (fd[1]);
+		close (fd[0]);
 		l = l->next;
 		j++;
+		node++;
 	}
 	i = 0;
 	while(i < n)
@@ -209,8 +158,5 @@ void ft_exec (t_list *l, char **env)
 		wait(NULL);
 		i++;
 	}
+	printf("\n");
 }
-
-
-
-

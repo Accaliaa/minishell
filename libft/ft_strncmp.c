@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdasser <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 11:14:05 by zdasser           #+#    #+#             */
-/*   Updated: 2021/11/20 16:46:05 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/01 15:37:33 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 #include "libft.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -26,3 +28,4 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		return (t1[i] - t2[i]);
 	return (0);
 }
+

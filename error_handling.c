@@ -75,7 +75,7 @@ int handle_redirections(char *argv, size_t *j)
 	int i = *j ;
 	while(argv[i])
 	{
-		if(argv[i] == '>')
+		if(argv[i] == '>') 
 		{
 			if(red_error(&i, &count, argv) || count > 2)
 				return(0);
