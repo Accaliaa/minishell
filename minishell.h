@@ -22,6 +22,8 @@ typedef struct s_all
    	int *inf;
     int *outf;
 	char **delimiter;
+    char *heredoc_line;
+    int 
 } t_all;
 
 typedef struct s_p {

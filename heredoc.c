@@ -22,7 +22,6 @@ void get_delimiter(t_list *l, char *s, int *count)
 	j = 0;
 	while (s[i] && i + 1 <= (int)ft_strlen(s))
 	{
-																	printf("hi\n");
 		if (s[i] == '<' && s[i + 1] == '<' && ft_strlen(s) > 2 )
 		{
 			j = i + 2;
@@ -32,22 +31,13 @@ void get_delimiter(t_list *l, char *s, int *count)
 			((t_all *)l->content)->delimiter[*count] = delimiter;
 		    *count+= 1;
 		}
-																	printf("hi2\n");
 		if(j)
 			i += j - 1;
 		i++;
-																	printf("hi3 %d\n", i);
 		if(i > (int)ft_strlen(s))
 			i = ft_strlen(s);
-																	printf("oooo %d %d\n", (int)ft_strlen(s), i);
-																if (s[i])
-																	printf("momkin\n");
-																printf("hi4\n");
 	}
-																printf("la maymkench\n");
 }
-
-
 
 void cmd_loop(t_list *l)
 {
@@ -88,30 +78,26 @@ void	check_heredoc(t_list *l)
 {
 	int i;
 	int j;
-	char *line = "/";
 	char *tmp;
+	char **line;
 	char *input = NULL;
     cmd_loop(l);
 	while(l)
 	{
 		i = 0;
 		j = ((t_all *)l->content)->hd;
-		printf("i : %i \n", i);
-		printf("i : %i \n", j);
+		((t_all *)l->content)->heredoc_line = "/";
+		line = &(((t_all *)l->content)->heredoc_line);
 		if(j)
 		{
-			printf("hello\n");
 			while(i < j)
 			{
 				input = readline("heredoc>");
-				printf("delimiter : %s \n", ((t_all *)l->content)->delimiter[i]);
 				while(!ft_strcmp(input, ((t_all *)l->content)->delimiter[i]))
 				{
-					printf("here\n");
 				    tmp = ft_strjoin(input, "/");
-					line = ft_strjoin(line, tmp);
+					*line = ft_strjoin(*line, tmp);
 					input = readline("heredoc>");
-					printf("______%s____\n", line);
 					free(tmp);
 				}
 				i++;
