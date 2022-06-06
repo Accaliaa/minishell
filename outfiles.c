@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 11:15:47 by zdasser           #+#    #+#             */
-/*   Updated: 2022/05/31 17:04:14 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/06 10:49:45 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ void	check_outfiles(t_list *list)
 			while (count--)
 				((int *)((t_all *)list->content)->outf )[count] = 1;
 		}
-		
 		list = list->next;
 	}
 }

@@ -6,7 +6,7 @@
 #    By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/26 14:10:46 by zdasser           #+#    #+#              #
-#    Updated: 2022/06/01 14:52:26 by zdasser          ###   ########.fr        #
+#    Updated: 2022/06/06 10:21:08 by zdasser          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,6 @@ SRC = main.c heredoc.c error_handling.c minishell_utils.c redirections.c executi
 CC = @gcc -g -lreadline #-L /Users/zdasser/.brew/opt/readline/lib -I/Users/zdasser/.brew/opt/readline/include
 
 CFLAGS = -Wall -Wextra -Werror
-
 LIBFT = libft/libft.a
 
 RM = @rm -f
