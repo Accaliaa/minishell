@@ -6,12 +6,27 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:29:17 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/04 18:53:07 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/07 18:22:49 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 #include<unistd.h>
+
+int	*sttc_var(void)
+{
+	static int i;
+
+	return (&i);
+}
+
+void set_sttc(int i)
+{
+	int *p;
+
+	p = (sttc_var());
+	*p = i;
+}
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -96,13 +111,24 @@ void ft_exec (t_list *l, char **env)
    int n = ft_lstsize(l);
    int in = 0;
    int	node = 0;
+   int ev = 0;
    get_path(env, &p);
-	while(l)
+  if(check_dollar(l))
+	return;
+  else
+  {
+	  while(l)
 	{
 		pipe(fd);
 		i = 0;
 		if(fork() == 0)
 		{
+			// if(((t_all *)l->content)->hd >= 1 && j == 0)
+			// {
+			// 	dup2(((t_all *)l->content)->fd, 0);
+			// 	close (fd[1]);
+			// 	close (fd[0]);
+			// }
 			if(n == 1)
 			{
 				dup2(((t_all *)l->content)->inf[0], 0);
@@ -138,12 +164,20 @@ void ft_exec (t_list *l, char **env)
 				else
 					cmd = ft_strjoin(tmp, ((t_all *)l->content)->cmd[0]);
 		 		free(tmp);
-		 		if (!access(cmd, X_OK))
-		 			execve(cmd,((t_all *)l->content)->cmd , env);
+		 		//if (access(cmd, F_OK) == 0)
+				//{
+					fprintf(stdout, "....%i...%s\n", access(cmd, X_OK), cmd );
+					if (access(cmd, X_OK) == 0)
+		 				execve(cmd,((t_all *)l->content)->cmd, env);
+					else
+						exit(126);
+				//}
+				//else
+					//exit(127);
 		 		i++;
 		 	}
 			printf("command not found \n");
-			exit(126);
+			//exit(1);
 		}
 		in = dup(fd[0]);
 		close (fd[1]);
@@ -155,8 +189,14 @@ void ft_exec (t_list *l, char **env)
 	i = 0;
 	while(i < n)
 	{
-		wait(NULL);
+		wait(&ev);
 		i++;
 	}
+	
+	if(WIFEXITED(ev))
+	{
+		set_sttc(WEXITSTATUS(ev));
+	}
 	printf("\n");
+	}
 }

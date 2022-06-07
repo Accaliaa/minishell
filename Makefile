@@ -6,17 +6,17 @@
 #    By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/26 14:10:46 by zdasser           #+#    #+#              #
-#    Updated: 2022/06/06 10:21:08 by zdasser          ###   ########.fr        #
+#    Updated: 2022/06/07 15:52:13 by zdasser          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRC = main.c heredoc.c error_handling.c minishell_utils.c redirections.c execution.c outfiles.c\
+SRC = main.c heredoc.c error_handling.c minishell_utils.c redirections.c execution.c outfiles.c exit_value.c \
 
 CC = @gcc -g -lreadline #-L /Users/zdasser/.brew/opt/readline/lib -I/Users/zdasser/.brew/opt/readline/include
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 LIBFT = libft/libft.a
 
 RM = @rm -f

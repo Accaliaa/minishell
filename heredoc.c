@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 17:04:34 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/06 11:20:49 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/06 17:42:39 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,16 @@ void	check_heredoc(t_list *l)
 	char *tmp;
 	char **line;
 	char *input = NULL;
+	int fd;
+
+	fd = 0;
     cmd_loop(l);
 	while(l)
 	{
+		fd = 0;
 		i = 0;
 		j = ((t_all *)l->content)->hd;
-		((t_all *)l->content)->heredoc_line = "/";
+		((t_all *)l->content)->heredoc_line = "";
 		line = &(((t_all *)l->content)->heredoc_line);
 		if(j)
 		{
@@ -103,6 +107,11 @@ void	check_heredoc(t_list *l)
 				i++;
 			}
 		}
+		((t_all *)l->content)->fd = open("temp", O_CREAT | O_RDWR | O_APPEND, 0755);
+		fd = ((t_all *)l->content)->fd;
+		if (fd > 2)
+			ft_putstr_fd(*line, ((t_all *)l->content)->fd);
 		l = l->next;
+		
 	}
 }

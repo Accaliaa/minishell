@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 09:43:36 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/01 15:32:10 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/06 16:31:52 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ int	ft_count_infiles(char **s)
 	return(count);
 }
 
-
-
 void	handle_multi_infiles(char *s, t_list *list, int *count)
 {
 	char *infile;
@@ -54,9 +52,9 @@ void	handle_multi_infiles(char *s, t_list *list, int *count)
 	{
 		if(s[j] == '<' && s[j + 1] == '<')
 			((t_all *)list->content)->hd++;
+		
 		else if (s[j] == '<' && s[j + 1] != '<' )
-		{	
-			
+		{
 			i = j + 1;
 			while(s[i] != 32 && s[i] != '\n' && s[i] != '<' && s[i])
 				i++;
@@ -73,7 +71,6 @@ void	handle_multi_infiles(char *s, t_list *list, int *count)
 	
 }
 
-
 int	check_redirections(t_list *list)
 {
 	int i;
@@ -82,14 +79,13 @@ int	check_redirections(t_list *list)
 	int count;
 	int redir;
 	int node;
-	
 
-	i = 0;
-	redir = 0;
+	
 	node = 0;
 	while(list)
 	{
 		i = 0;
+		redir = 0;
 		s = ((t_all *)list->content)->cmd;
 		((t_all *)list->content)->hd = 0;
 		count = ft_count_infiles(s);
@@ -114,7 +110,7 @@ int	check_redirections(t_list *list)
 		}
 		else if (!count)
 			((t_all *)list->content)->inf = (int *)ft_calloc(1, sizeof(int));
-			
+	
 		list = list->next;
 		
 	}

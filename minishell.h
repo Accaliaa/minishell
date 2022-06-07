@@ -13,6 +13,7 @@
 #include <fcntl.h>
 #include <signal.h>
 
+
 typedef struct s_all
 {
     char **cmd;
@@ -23,7 +24,7 @@ typedef struct s_all
     int *outf;
 	char **delimiter;
     char *heredoc_line;
-    int 
+	int fd;
 } t_all;
 
 typedef struct s_p {
@@ -46,4 +47,6 @@ void	multiprocessing(t_list *l, char **envp);
 void	check_outfiles(t_list *list);
 void	check_heredoc(t_list *l);
 int		ft_strcmp(const char *s1, const char *s2);
+int		*sttc_var(void);
+int	check_dollar(t_list *l);
 #endif
