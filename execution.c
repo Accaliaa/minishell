@@ -6,12 +6,59 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:29:17 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/07 18:22:49 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/08 21:51:23 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 #include<unistd.h>
+
+void print_error(char **s, t_pipe *p)
+{
+	if(p->ev == 127)
+	{
+		if(s[1])
+			printf("%s %s : command not found\n", s[0], s[1]);
+		else
+			printf("%s : command not found\n", s[0]);
+	}
+	else if(p->ev == 126)
+	{
+		if(s[1])
+			printf("%s %s : permission denied\n", s[0], s[1]);
+		else
+			printf("%s : permission denied\n", s[0]);
+	}
+		
+}
+char *get_ev(t_pipe *p, t_list *l)
+{
+	int		i;
+	char	**env;
+	char *tmp;
+    char *cmd;
+
+	env = ((t_all *)l->content)->envp;
+	i = 0;
+	while (p->splitpaths[i])
+	{
+		tmp = ft_strjoin(p->splitpaths[i], "/");
+		cmd = ft_strjoin(tmp, ((t_all *)l->content)->cmd[0]);
+		free(tmp);
+		p->ev = 0;
+		if (access(cmd, F_OK) == 0)
+		{
+			if (access(cmd, X_OK) == 0)
+				return (cmd);
+			else
+			p->ev = 126;
+		}
+		else
+			p->ev = 127;
+		i++;
+	}
+	return(NULL);
+}
 
 int	*sttc_var(void)
 {
@@ -60,45 +107,6 @@ void	get_path(char **env, t_pipe *p)
 		exit (write(2, "error\n", 6));
 }
 
-// void get_args(int *se, t_pipe *p, char **s)
-// {
-// 	int	i;
-// 	int j;
-
-// 	j = 0;
-// 	i = se[0];
-// 	p->args_hold = (char **)malloc(sizeof(char *) * (se[1] - se[0] + 1));
-// 	while(i <= se[1] && !ft_cmp(s[j], '<'))
-// 	{
-// 		p->args_hold[j] = s[i];
-// 		i++;
-// 		j++;
-// 	}
-// }
-
-
-// void get_start_end(t_pipe *p, char **s)
-// {
-// 	int i;
-// 	int	j;
-// 	int se[2];
-
-// 	j = 0;
-// 	i = 0;
-// 	while (s[i] && ft_cmp(s[i], '<'))
-// 	{
-// 		if (ft_cmp(s[i], '<') && ft_strlen(s[i]) == 1)
-// 	  		i++;
-// 	 	i++;
-// 	}
-// 	j = i;
-// 	while (s[j] && !ft_cmp(s[j], '>') && !ft_cmp(s[j], '<'))
-// 	 	j++;
-	
-// 	se[0] = i;
-// 	se[1] = j;
-// 	get_args(se, p, s);
-// }
 
 void ft_exec (t_list *l, char **env)
 {
@@ -106,8 +114,7 @@ void ft_exec (t_list *l, char **env)
    t_pipe p;
    int i = 0;
    int j = 0;
-   char *tmp;
-   char *cmd;
+  
    int n = ft_lstsize(l);
    int in = 0;
    int	node = 0;
@@ -156,28 +163,14 @@ void ft_exec (t_list *l, char **env)
 				close (fd[1]);
 				close (fd[0]);
 			}
-		 	while (p.splitpaths[i])
-		 	{
-		 		tmp = ft_strjoin(p.splitpaths[i], "/");
-				if( j == 0)
-					cmd = ft_strjoin(tmp, ((t_all *)l->content)->cmd[node]);
-				else
-					cmd = ft_strjoin(tmp, ((t_all *)l->content)->cmd[0]);
-		 		free(tmp);
-		 		//if (access(cmd, F_OK) == 0)
-				//{
-					fprintf(stdout, "....%i...%s\n", access(cmd, X_OK), cmd );
-					if (access(cmd, X_OK) == 0)
-		 				execve(cmd,((t_all *)l->content)->cmd, env);
-					else
-						exit(126);
-				//}
-				//else
-					//exit(127);
-		 		i++;
-		 	}
-			printf("command not found \n");
-			//exit(1);
+		 	if(!get_ev(&p, l))
+			{
+				print_error(((t_all *)l->content)->cmd, &p);
+				exit(p.ev);
+			}
+			else
+				execve(get_ev(&p, l), ((t_all *)l->content)->cmd, env);
+				
 		}
 		in = dup(fd[0]);
 		close (fd[1]);

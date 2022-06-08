@@ -31,6 +31,8 @@ typedef struct s_p {
 	char	**splitpaths;
 	char	**args_hold;
 	int	exit_value_hold;
+	int	node_n;
+	int ev;
 }	t_pipe;
 
 void	parse(char s);
