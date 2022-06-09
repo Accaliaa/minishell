@@ -3,93 +3,145 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdasser <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: omeslall <omeslall@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/12 03:29:55 by zdasser           #+#    #+#             */
-/*   Updated: 2021/11/20 15:54:08 by zdasser          ###   ########.fr       */
+/*   Created: 2021/11/10 19:21:14 by omeslall          #+#    #+#             */
+/*   Updated: 2022/06/07 13:41:07 by omeslall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include"libft.h"
 
-int	static	count(char const *s, char c)
+static int	count_words(char const *s, char c)
 {
 	int	i;
-	int	j;
+	int	count;
+	int	flag;
+	int	qout;
+	int type;
+    char temp;
+
+	qout = type = 0;
+	i = 0;
+	flag = 0;
+	count = 0;
+	while (s[i])
+	{
+		if (s[i] == '"' || s[i] == 39)
+		{
+			if(qout == 2)
+				qout = 0;
+			if(qout == 0)
+				temp = s[i];
+			if(qout == 0 || s[i] == temp)
+				qout++;
+		}
+		else if (s[i] != c && flag == 0)
+		{
+			flag = 1;
+			count++;
+		}
+		else if (s[i] == c && (qout == 2 || qout == 0))
+		{
+			flag = 0;
+			qout = 0;
+			type = 0;
+		}
+		i++;
+	}
+	return (count);
+}
+
+static char	*word_in(char const *s, int start, int end)
+{
+	int		i;
+	int		size;
+	char	*word;
 
 	i = 0;
+	size = end - start;
+	word = malloc((size + 1) * sizeof(char));
+	if (!word)
+		return (NULL);
+	while (start < end)
+	{
+		word[i] = s[start];
+		i++;
+		start++;
+	}
+	word[i] = '\0';
+	return (word);
+}
+
+static char	**memory(char const *s, char c)
+{
+	int		i;
+	int		size;
+	char	**array;
+
+	i = 0;
+	size = count_words(s, c);
+	array = malloc((size + 1) * sizeof(char *));
+	if (!s[i] && !array)
+	{
+		free(array);
+		return (0);
+	}
+	return (array);
+}
+
+static char	**itre(char const *s, char c, char **array)
+{
+	int		size;
+	int		i;
+	int		j;
+	int		k;
+	int		qout;
+	char	temp;
+	int		type;
+
+	type = 0;
+	k = -1;
 	j = 0;
-	while (s[i])
-	{
-		if (s[i] != c)
-		{
-			j++;
-			while (s[i] != c && s[i])
-				i++;
-		}
-		else
-			i++;
-	}
-	return (j);
-}
-
-int	static	end(const char *s, char c)
-{
-	int	k;
-
-	k = 0;
-	while (s[k] != c && s[k])
-		k++;
-	return (k);
-}
-
-int	static	fill(char **p, char const *s, char c)
-{
-	int	i;
-	int	n;
-	int	k;
-
 	i = 0;
-	n = 0;
-	while (s[i])
+	qout = 0;
+	size = ft_strlen(s);
+	while (i <= size)
 	{
-		if (s[i] != c && s[i])
+		if (s[i] == '"' || s[i] == 39)
 		{
-			k = end(&s[i], c);
-			p[n] = ft_substr(s, i, k);
-			if (!p[n])
-			{
-				while (n--)
-					free(p[n]);
-				return (0);
-			}
-			n++;
-			i += k;
+			if(qout == 2)
+				qout = 0;
+			if(qout == 0)
+				temp = s[i];
+			if(qout == 0 || s[i] == temp)
+				qout++;
+			
 		}
-		else if (s[i] && s[i] == c)
-			i++;
+		if (s[i] != c && k < 0)
+			k = i;
+		else if ((s[i] == c || i == size) && k >= 0 && (qout == 0 || qout == 2))
+		{
+			array[j] = word_in(s, k, i);
+			k = -1;
+			qout = 0;
+			type = 0;
+			j++;
+		}
+		i++;
 	}
-	return (1);
+	array[j] = NULL;
+	return (array);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	int		j;
-	int		filled;
-	char	**p;
+	char	**array;
 
 	if (!s)
 		return (NULL);
-	j = count(s, c);
-	p = (char **)malloc(sizeof(char *) * (j + 1));
-	if (!p)
+	array = memory(s, c);
+	if (!array)
 		return (NULL);
-	filled = fill(p, s, c);
-	if (!filled)
-	{
-		free(p);
-		return (NULL);
-	}
-	p[j] = NULL;
-	return (p);
+	return (itre(s, c, array));
 }

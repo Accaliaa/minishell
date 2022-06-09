@@ -3,61 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdasser <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: omeslall <omeslall@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/08 18:26:34 by zdasser           #+#    #+#             */
-/*   Updated: 2021/11/14 02:20:10 by zdasser          ###   ########.fr       */
+/*   Created: 2021/11/10 18:44:22 by omeslall          #+#    #+#             */
+/*   Updated: 2021/11/16 14:55:30 by omeslall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
-int	static	cnt(int n)
+static int	count_numbers(long n)
 {
-	int	i;
+	long	m;
+	int		count;
 
-	i = 1;
-	if (n < 0)
+	count = 0;
+	m = n;
+	if (n == 0)
+		count = 1;
+	while (m > 0)
 	{
-		n *= -1;
-		i++;
+		m = m / 10;
+		count++;
 	}
-	while (n >= 10)
-	{
-		i++;
-		n = n / 10;
-	}
-	return (i);
+	return (count);
 }
 
-static void	cnv(int n, int i, char *c)
+static void	ft_iter(char *str, int count, long j, long m)
 {
-	if (n < 0)
+	if (count == 1)
+		str[--count] = j + 48;
+	else
 	{
-		c[0] = '-';
-		n = -n;
-	}
-	while (n)
-	{
-		c[i - 1] = n % 10 + '0';
-		n = n / 10;
-		i--;
+		while (count--)
+		{
+			m = j % 10;
+			j = j / 10;
+			str[count] = m + 48;
+		}
 	}
 }
 
 char	*ft_itoa(int n)
 {
-	int		i;
-	char	*c;
+	int		count;
+	long	m;
+	char	*str;
+	int		negative;
+	long	j;
 
-	if (n == 0)
-		return (ft_strdup("0"));
-	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
-	i = cnt(n);
-	c = (char *)ft_calloc((i + 1), sizeof(char));
-	if (!c)
-		return (0);
-	cnv(n, i, c);
-	c[i] = '\0';
-	return (c);
+	j = n;
+	m = 0;
+	count = j < 0;
+	negative = j < 0;
+	if (j < 0)
+		j = j * -1;
+	count = count + count_numbers(j);
+	str = (char *)malloc(count * sizeof(char) + 1);
+	if (!str)
+		return (NULL);
+	str [count] = '\0';
+	ft_iter(str, count, j, m);
+	if (negative == 1)
+		str [0] = '-';
+	return (str);
 }

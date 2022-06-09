@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft-striteri.c                                      :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdasser <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: omeslall <omeslall@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/08 15:38:05 by zdasser           #+#    #+#             */
-/*   Updated: 2021/11/20 16:30:16 by zdasser          ###   ########.fr       */
+/*   Created: 2021/11/10 19:59:50 by omeslall          #+#    #+#             */
+/*   Updated: 2021/11/15 00:47:09 by omeslall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include"libft.h"
 
 void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
 	unsigned int	i;
 
 	i = 0;
-	if (s)
+	if (!s)
+		return ;
+	while (s[i])
 	{
-		while (s[i])
-		{
-			f(i, &s[i]);
-			i++;
-		}
+		(*f)(i, &s[i]);
+		i++;
 	}
 }
+// int main()
+// {
+// 	char str[]="ABCD";
+// 	ft_striteri(str,test);
+// 	printf("%s",str);
+// void	test(unsigned int i, char* c)
+// {
+// 	*c += i:
+// }
+// }

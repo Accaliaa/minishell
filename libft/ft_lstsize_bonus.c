@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omeslall <omeslall@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/10 21:48:43 by omeslall          #+#    #+#             */
-/*   Updated: 2021/11/10 21:48:56 by omeslall         ###   ########.fr       */
+/*   Created: 2021/11/15 00:29:07 by omeslall          #+#    #+#             */
+/*   Updated: 2021/11/16 16:23:36 by omeslall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"libft.h"
 
-int	ft_toupper(int c)
+int	ft_lstsize(t_list *lst)
 {
-	if (97 <= c && c <= 122)
-		c -= 32;
-	return (c);
+	int		count;
+
+	count = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		count++;
+	}
+	return (count);
 }

@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:11:06 by omeslall          #+#    #+#             */
-/*   Updated: 2022/06/06 17:40:54 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/09 11:38:28 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,16 @@
 // }
 
 
-t_list *ft_filtre(char *line, t_all *all, char **env)
+
+t_list *ft_filtre(char *line, t_all *all)
 {
 	t_list *l;
 	t_list *temp;
 	char **pipe;
 	char **sp;
 	int i = 0;
-	(void)env;
+	int k =0;
+	
 
 	l = NULL;
 	temp = NULL;
@@ -48,36 +50,38 @@ t_list *ft_filtre(char *line, t_all *all, char **env)
 		all = ft_init(all);	
 		temp = ft_lstnew(all);
 		sp = ft_split(pipe[i],' ');
+		k = 0;
 		((t_all *)temp->content)->cmd = sp;
+		((t_all *)temp->content)->ccmd = ft_ccmd(sp);
 		ft_lstadd_back(&l,temp);
 		i++;
 	}
-	check_redirections(l);
-	check_outfiles(l);
-	check_heredoc(l);
 	return(l);
 }
 
 void    minishell(char *line,t_all *all, char **env)
 {
 	t_list *filtre;
-	
-	filtre = ft_filtre(line,all, env);
+	(void) env;
+	filtre = ft_filtre(line,all);
+	check_redirections(filtre);
+	check_outfiles(filtre);
+	check_heredoc(filtre);
     ft_exec(filtre, env);
 }
 
-int main(int ac,char **av,char **env)
+int main(int ac,char **av,char **envp)
 {
 	char *line;
 	t_all *all;
 
-	if (!av || !env)
+	if (!av || !envp)
 		return(0);
-	//signal(SIGINT, handle_sigint);
-	//signal(SIGQUIT, handle_sigquit);
+	// signal(SIGINT, handle_sigint);
+	// signal(SIGQUIT, handle_sigquit);
 	all = malloc(sizeof(t_all));
-	all->envp = env;
-	converter(env, all);
+	all->envp = envp;
+	converter(envp, all);
 	if (ac == 1)
 	{    
 		while(1)
@@ -87,10 +91,10 @@ int main(int ac,char **av,char **env)
 				exit(0);
 			if (line && *line)
 				add_history (line);
-			if(handle_errors(line))
-			{
-				minishell(line,all, env);
-			}
+				minishell(line,all, envp);
+			// if(handle_errors(line))
+			// {
+			// }
 		}
 	}
-}
+} 

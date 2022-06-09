@@ -3,58 +3,78 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdasser <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: omeslall <omeslall@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/12 03:41:06 by zdasser           #+#    #+#             */
-/*   Updated: 2021/11/12 22:50:25 by zdasser          ###   ########.fr       */
+/*   Created: 2021/11/10 20:56:22 by omeslall          #+#    #+#             */
+/*   Updated: 2021/11/16 15:47:11 by omeslall         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-int static	cmp(const char *set, char s1)
+#include"libft.h"
+
+static int	beg(char const *s1, char const *set)
 {
-	int	i;
+	int		i;
+	int		j;
 
 	i = 0;
-	while (set[i])
+	while (s1[i])
 	{
-		if (set[i] == s1)
-			return (1);
+		j = 0;
+		while (set[j])
+		{
+			if (s1[i] == set[j])
+				break ;
+			if (set[j + 1] == '\0')
+				return (i);
+			j++;
+		}
 		i++;
 	}
-	return (0);
+	return (i);
 }
 
-char static	*p(const char *s1, int start, int i)
+static int	end(char const *s1, char const *set)
 {
-	if (start <= i)
-		return (ft_substr(s1, start, i - start + 1));
-	else
-		return (ft_strdup(""));
+	int	i;
+	int	j;
+
+	i = ft_strlen(s1) - 1;
+	while (s1[i])
+	{
+		j = 0;
+		while (set[j])
+		{
+			if (s1[i] == set[j])
+				break ;
+			if (set[j + 1] == '\0')
+				return (i);
+			j++;
+		}
+		i--;
+	}
+	return (i);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	int	i;
-	int	start;
+	int		i;
+	int		j;
+	int		k;
+	char	*str;
 
-	start = 0;
-	i = 0;
-	if (!s1 || !set)
+	if (!s1)
 		return (NULL);
-	while (s1[i])
+	if (set[0] == '\0')
 	{
-		if (!cmp(set, s1[i]))
-			break ;
-		i++;
+		str = ft_substr(s1, 0, ft_strlen(s1));
+		return (str);
 	}
-	start = i;
-	i = ft_strlen(s1) - 1;
-	while (i >= start)
-	{
-		if (!cmp(set, s1[i]))
-			break ;
-		i--;
-	}
-	return (p(s1, start, i));
+	i = beg(s1, set);
+	j = end(s1, set);
+	k = j - i + 1;
+	if (k < 0)
+		k = 0;
+	str = ft_substr(s1, i, k);
+	return (str);
 }

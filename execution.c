@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:29:17 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/08 21:51:23 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/09 11:08:09 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char *get_ev(t_pipe *p, t_list *l)
 	while (p->splitpaths[i])
 	{
 		tmp = ft_strjoin(p->splitpaths[i], "/");
-		cmd = ft_strjoin(tmp, ((t_all *)l->content)->cmd[0]);
+		cmd = ft_strjoin(tmp, ((t_all *)l->content)->ccmd[0]);
 		free(tmp);
 		p->ev = 0;
 		if (access(cmd, F_OK) == 0)
@@ -165,11 +165,11 @@ void ft_exec (t_list *l, char **env)
 			}
 		 	if(!get_ev(&p, l))
 			{
-				print_error(((t_all *)l->content)->cmd, &p);
+				print_error(((t_all *)l->content)->ccmd, &p);
 				exit(p.ev);
 			}
 			else
-				execve(get_ev(&p, l), ((t_all *)l->content)->cmd, env);
+				execve(get_ev(&p, l), ((t_all *)l->content)->ccmd, env);
 				
 		}
 		in = dup(fd[0]);
