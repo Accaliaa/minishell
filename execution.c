@@ -6,12 +6,72 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:29:17 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/09 11:08:09 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/10 17:10:33 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 #include<unistd.h>
+
+void	take_quotes(char *s, char c)
+{
+	int	i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while(s[i])
+	{
+		if(s[i] == c)
+		{
+			i++;
+			while(s[i] !=  c && s[i])
+			{
+				s[i - 1] = s[i];
+				i++;
+			}
+			s[i - 1] = '\0';
+			j = i - 1;
+			while(s[i] && s[i] == c)
+				i++;
+			while(s[i] != c && s[i])
+			{
+				s[j] = s[i];
+				i++;
+				j++;
+			}
+			while(s[j])
+			{
+				s[j] = '\0';
+				j++;
+			}
+		}
+		if(i < (int)ft_strlen(s))
+			i++;
+	}
+}
+
+void	check_quotes(t_list *l)
+{
+	int i;
+	char **s;
+
+	while(l)
+	{
+		i = 0;
+		s = ((t_all *)l->content)->ccmd;
+		while(s[i])
+		{
+			if(ft_cmp(s[i], '"'))
+				take_quotes(s[i], '"');
+			if (ft_cmp(s[i], 39))
+				take_quotes(s[i], 39);
+			
+			i++;
+		}
+		l = l->next;
+	}
+}
 
 void print_error(char **s, t_pipe *p)
 {
@@ -40,10 +100,14 @@ char *get_ev(t_pipe *p, t_list *l)
 
 	env = ((t_all *)l->content)->envp;
 	i = 0;
+	check_quotes(l);
+	
 	while (p->splitpaths[i])
 	{
+		cmd = ((t_all *)l->content)->ccmd[0];
 		tmp = ft_strjoin(p->splitpaths[i], "/");
-		cmd = ft_strjoin(tmp, ((t_all *)l->content)->ccmd[0]);
+		cmd = ft_strjoin(tmp, cmd);
+		
 		free(tmp);
 		p->ev = 0;
 		if (access(cmd, F_OK) == 0)
@@ -120,22 +184,17 @@ void ft_exec (t_list *l, char **env)
    int	node = 0;
    int ev = 0;
    get_path(env, &p);
+   
   if(check_dollar(l))
 	return;
   else
   {
-	  while(l)
+	while(l)
 	{
 		pipe(fd);
 		i = 0;
 		if(fork() == 0)
 		{
-			// if(((t_all *)l->content)->hd >= 1 && j == 0)
-			// {
-			// 	dup2(((t_all *)l->content)->fd, 0);
-			// 	close (fd[1]);
-			// 	close (fd[0]);
-			// }
 			if(n == 1)
 			{
 				dup2(((t_all *)l->content)->inf[0], 0);

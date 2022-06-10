@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:11:06 by omeslall          #+#    #+#             */
-/*   Updated: 2022/06/09 11:38:28 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/09 14:38:00 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_list *ft_filtre(char *line, t_all *all)
 	char **pipe;
 	char **sp;
 	int i = 0;
-	int k =0;
+	int k = 0;
 	
 
 	l = NULL;
@@ -56,7 +56,7 @@ t_list *ft_filtre(char *line, t_all *all)
 		ft_lstadd_back(&l,temp);
 		i++;
 	}
-	return(l);
+	return (l);
 }
 
 void    minishell(char *line,t_all *all, char **env)

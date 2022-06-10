@@ -6,7 +6,7 @@
 #    By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/26 14:10:46 by zdasser           #+#    #+#              #
-#    Updated: 2022/06/09 11:16:58 by zdasser          ###   ########.fr        #
+#    Updated: 2022/06/09 18:02:14 by zdasser          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRC = main.c error_handling.c minishell_utils.c execution.c cd.c heredoc.c outfi
 CC = @gcc -g -lreadline 
 # -fsanitize=address
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 LIBFT = libft/libft.a
 

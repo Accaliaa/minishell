@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 17:04:34 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/06 17:42:39 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/09 14:38:36 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void cmd_loop(t_list *l)
 		s = ((t_all *)l->content)->cmd;
 		while(s && s[i])
 		{
-		//printf("here %d %d\n", count, ((t_all *)l->content)->hd + 1);
 			if (ft_cmp(s[i], '<'))
 			{
 				if( ft_strlen(s[i]) == 2 && s[i][j] == '<' && s[i][j + 1] == '<')

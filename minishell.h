@@ -53,9 +53,9 @@ int		change_path(char *name_folder ,char **env);
 int		is_builtin(char *cmd);
 char	**ft_ccmd(char **cmd);
 int		*sttc_var(void);
-int check_dollar(t_list *l);
+int		check_dollar(t_list *l);
 void	check_outfiles(t_list *list);
-int	ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
 void	check_heredoc(t_list *l);
 
 #endif
