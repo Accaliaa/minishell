@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
+/*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:29:17 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/10 17:10:33 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/11 15:53:43 by skadi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,19 +191,22 @@ void ft_exec (t_list *l, char **env)
   {
 	while(l)
 	{
+		int n_inf;
+
+		n_inf = ((t_all *)l->content)->n_inf - 1;
 		pipe(fd);
 		i = 0;
 		if(fork() == 0)
 		{
 			if(n == 1)
 			{
-				dup2(((t_all *)l->content)->inf[0], 0);
+				dup2(((t_all *)l->content)->inf[n_inf], 0);
 				close (fd[1]);
 				close (fd[0]);
 			}
 			else if(j == 0 && n > 1)
 			{
-				dup2(((t_all *)l->content)->inf[0], 0);
+				dup2(((t_all *)l->content)->inf[n_inf], 0);
 				dup2(fd[1], 1);
 				close (fd[1]);
 				close (fd[0]);

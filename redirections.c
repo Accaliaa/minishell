@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
+/*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 09:43:36 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/06 16:31:52 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/10 18:44:13 by skadi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,21 +92,22 @@ int	check_redirections(t_list *list)
 		if(count)
 		{
 			((t_all *)list->content)->inf = malloc(sizeof(int) * count);
+			((t_all *)list->content)->n_inf = count;
 			node++;
-		while(s[i])
-		{
-			if(ft_cmp(s[i], '<') && ft_strlen(s[i]) == 1)
+			while(s[i])
 			{
-				infile = s[i + 1];
-				((t_all *)list->content)->inf[redir] = open(infile, O_RDONLY);
+				if(ft_cmp(s[i], '<') && ft_strlen(s[i]) == 1)
+				{
+					infile = s[i + 1];
+					((t_all *)list->content)->inf[redir] = open(infile, O_RDONLY);
+					i++;
+					redir++;
+					node++;
+				}
+				else if (ft_strlen(s[i]) > 1 && ft_cmp(s[i], '<'))
+					handle_multi_infiles(s[i], list, &redir);
 				i++;
-				redir++;
-				node++;
 			}
-			else if (ft_strlen(s[i]) > 1 && ft_cmp(s[i], '<'))
-				handle_multi_infiles(s[i], list, &redir);
-			i++;
-		}
 		}
 		else if (!count)
 			((t_all *)list->content)->inf = (int *)ft_calloc(1, sizeof(int));

@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   infile_outfiles.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/15 00:21:02 by omeslall          #+#    #+#             */
-/*   Updated: 2022/06/11 10:53:28 by skadi            ###   ########.fr       */
+/*   Created: 2022/06/10 18:12:29 by skadi             #+#    #+#             */
+/*   Updated: 2022/06/11 15:48:10 by skadi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "minishell.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void    read_from_infile(t_list *l)
 {
-	t_list	*last;
+    int i;
 
-	last = *lst;
-	if (!*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	while (last->next != NULL)
-	{
-		last = last->next;
-	}
-	last->next = new;
-	new->prev = last;
+    i = 0;
+    while(l)
+    {
+        if(((t_all *)temp->content)->n_inf > 1)
+        {
+            
+        }
+        l = l->next;
+    }
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   outfiles.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
+/*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 11:15:47 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/06 10:49:45 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/10 18:45:03 by skadi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	handle_long(char *s, t_list *list)
 			while(s[i] != 32 && s[i] != '\n' && s[i] != '>' && s[i])
 				i++;
 			outfile = ft_substr(s, j + 1, i - 1);
-			((t_all *)list->content)->outf[count] = open(outfile, O_CREAT | O_RDWR | O_TRUNC, 755);
+			((t_all *)list->content)->outf[count] = open(outfile, O_CREAT | O_RDWR | O_TRUNC, 0755);
 			count++;
 		}
 		if (s[j] == '>' && s[j + 1] == '>' )
@@ -60,7 +60,7 @@ void	handle_long(char *s, t_list *list)
 			while(s[i] != 32 && s[i] != '\n' && s[i] != '>' && s[i])
 				i++;
 			outfile = ft_substr(s, j + 2, i - 1);
-			((t_all *)list->content)->outf[count] = open(outfile, O_CREAT | O_RDWR | O_APPEND, 755);
+			((t_all *)list->content)->outf[count] = open(outfile, O_CREAT | O_RDWR | O_APPEND, 0755);
 			count++;
 		}
 		
@@ -116,6 +116,7 @@ void	check_outfiles(t_list *list)
 		{
 			i = count;
 			((t_all *)list->content)->outf = malloc(sizeof(int) * count);
+			((t_all *)list->content)->n_outf = count;
 			handle_multi_outfiles(s, list, &redir);
 		}
 		 

@@ -24,7 +24,9 @@ typedef struct s_all
     t_list	*lenvp;
     int		hd;
    	int		*inf;
+	int		n_inf;
     int		*outf;	
+	int		n_outf;
 	char **delimiter;
     char *heredoc_line;
 	int fd;
