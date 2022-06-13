@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:29:17 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/11 15:53:43 by skadi            ###   ########.fr       */
+/*   Updated: 2022/06/13 19:39:16 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,14 @@ void	check_quotes(t_list *l)
 
 void print_error(char **s, t_pipe *p)
 {
-	if(p->ev == 127)
+	if(p->ev == 127 && s[0])
 	{
 		if(s[1])
 			printf("%s %s : command not found\n", s[0], s[1]);
 		else
 			printf("%s : command not found\n", s[0]);
 	}
-	else if(p->ev == 126)
+	else if(p->ev == 126 && s[0])
 	{
 		if(s[1])
 			printf("%s %s : permission denied\n", s[0], s[1]);
@@ -191,22 +191,31 @@ void ft_exec (t_list *l, char **env)
   {
 	while(l)
 	{
+		
 		int n_inf;
 
 		n_inf = ((t_all *)l->content)->n_inf - 1;
+		if(n_inf < 0)
+			n_inf = 0;
 		pipe(fd);
 		i = 0;
 		if(fork() == 0)
 		{
 			if(n == 1)
 			{
-				dup2(((t_all *)l->content)->inf[n_inf], 0);
+				if(((t_all *)l->content)->hd)
+					dup2(3, 0);
+				else
+					dup2(((t_all *)l->content)->inf[n_inf], 0);
 				close (fd[1]);
 				close (fd[0]);
 			}
 			else if(j == 0 && n > 1)
 			{
-				dup2(((t_all *)l->content)->inf[n_inf], 0);
+				if(((t_all *)l->content)->hd)
+					dup2(((t_all *)l->content)->fd, 0);
+				else
+					dup2(((t_all *)l->content)->inf[n_inf], 0);
 				dup2(fd[1], 1);
 				close (fd[1]);
 				close (fd[0]);
@@ -215,7 +224,7 @@ void ft_exec (t_list *l, char **env)
 			{
 				dup2(in, 0);
 				dup2(fd[1], 1);
-				close (fd[1]);     
+				close (fd[1]);
 				close (fd[0]);
 			}
 			else
@@ -232,7 +241,6 @@ void ft_exec (t_list *l, char **env)
 			}
 			else
 				execve(get_ev(&p, l), ((t_all *)l->content)->ccmd, env);
-				
 		}
 		in = dup(fd[0]);
 		close (fd[1]);

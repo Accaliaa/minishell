@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omeslall <omeslall@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 14:26:54 by omeslall          #+#    #+#             */
-/*   Updated: 2022/05/30 21:20:14 by omeslall         ###   ########.fr       */
+/*   Updated: 2022/06/13 20:26:23 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	is_builtin(char *cmd)
 {
-	if(!(ft_strncmp(cmd,"cd",2)) && ft_strlen(cmd) == 2)
-		return(1);
+	if (!(ft_strncmp(cmd,"cd",2)) && ft_strlen(cmd) == 2)
+		return (1);
 
 	return 0;
 }
@@ -29,9 +29,9 @@ int	slash(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if(str[i] == '/')
+		if (str[i] == '/')
 			count++;
-		if(count == 3)
+		if (count == 3)
 			return(i);
 		i++;
 	}

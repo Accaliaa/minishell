@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   outfiles.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 11:15:47 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/10 18:45:03 by skadi            ###   ########.fr       */
+/*   Updated: 2022/06/13 20:26:03 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ int	ft_count_outfiles(char **s)
 	while (s[i])
 	{
 		j = 0;
-		while(s[i][j])
+		while (s[i][j])
 		{
-			if(s[i][j] == '>' && s[i][j + 1] != '>')
+			if (s[i][j] == '>' && s[i][j + 1] != '>')
 				count++;
 			j++;
 		}
 		i++;
 	}
-	return(count);
+	return (count);
 }
 
 void	handle_long(char *s, t_list *list)
@@ -43,12 +43,12 @@ void	handle_long(char *s, t_list *list)
 	int i = 0;
 	int count = 0;
 	
-	while(s[j] && j + 1 <= (int)ft_strlen(s))
+	while (s[j] && j + 1 <= (int)ft_strlen(s))
 	{
 		if (s[j] == '>' && s[j + 1] != '>' )
 		{
 			i = j + 1;
-			while(s[i] != 32 && s[i] != '\n' && s[i] != '>' && s[i])
+			while (s[i] != 32 && s[i] != '\n' && s[i] != '>' && s[i])
 				i++;
 			outfile = ft_substr(s, j + 1, i - 1);
 			((t_all *)list->content)->outf[count] = open(outfile, O_CREAT | O_RDWR | O_TRUNC, 0755);
@@ -57,7 +57,7 @@ void	handle_long(char *s, t_list *list)
 		if (s[j] == '>' && s[j + 1] == '>' )
 		{
 			i = j + 2;
-			while(s[i] != 32 && s[i] != '\n' && s[i] != '>' && s[i])
+			while (s[i] != 32 && s[i] != '\n' && s[i] != '>' && s[i])
 				i++;
 			outfile = ft_substr(s, j + 2, i - 1);
 			((t_all *)list->content)->outf[count] = open(outfile, O_CREAT | O_RDWR | O_APPEND, 0755);
@@ -81,12 +81,12 @@ void handle_multi_outfiles(char **s, t_list *list, int *count)
 	char *outfile;
 
 	i = 0;
-	while(s[i])
+	while (s[i])
 	{
 		
 		j = 0;
 		
-		if(ft_strlen(s[i]) == 2 && s[i][j] == '>' && s[i][j + 1] == '>')
+		if (ft_strlen(s[i]) == 2 && s[i][j] == '>' && s[i][j + 1] == '>')
 		{
 				outfile = s[i + 1];
 				((t_all *)list->content)->outf[*count] = open(outfile, O_CREAT | O_RDWR | O_APPEND, 0755);
@@ -107,12 +107,12 @@ void	check_outfiles(t_list *list)
 	int count;
 	int redir = 0;
 
-	while(list)
+	while (list)
 	{
 		       
 		s = ((t_all *)list->content)->cmd;
 		count = ft_count_outfiles(s);
-		if(count)
+		if (count)
 		{
 			i = count;
 			((t_all *)list->content)->outf = malloc(sizeof(int) * count);

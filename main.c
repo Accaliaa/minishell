@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:11:06 by omeslall          #+#    #+#             */
-/*   Updated: 2022/06/09 14:38:00 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/13 21:39:10 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,8 @@ int main(int ac,char **av,char **envp)
 				exit(0);
 			if (line && *line)
 				add_history (line);
+			if(handle_errors(line))
 				minishell(line,all, envp);
-			// if(handle_errors(line))
-			// {
-			// }
 		}
 	}
 } 
