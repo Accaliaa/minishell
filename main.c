@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:11:06 by omeslall          #+#    #+#             */
-/*   Updated: 2022/06/13 21:39:10 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/14 11:57:09 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,13 @@ int main(int ac,char **av,char **envp)
 		while(1)
 		{
 			line = readline("\033[0;35mminishell:& \033[0;37m");
-			if(!line)
-				exit(0);
 			if (line && *line)
 				add_history (line);
-			if(handle_errors(line))
-				minishell(line,all, envp);
+			if(line)
+			{
+				if(handle_errors(line))
+					minishell(line,all, envp);	
+			}
 		}
 	}
 } 

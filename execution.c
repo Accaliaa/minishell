@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:29:17 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/13 19:39:16 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/14 12:16:00 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ int	ft_strcmp(const char *s1, const char *s2)
 	size_t i;
 	
 	i = 0;
+	if(!s1 || !s2)
+		return(0);
 	if(ft_strlen(s1) != ft_strlen(s2))
 		return(0);
 	while (s1[i] != '\0' && s2[i] != '\0' && s2[i] == s1[i])

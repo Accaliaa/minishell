@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 12:05:16 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/07 16:01:20 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/14 12:25:57 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int check_dollar(t_list *l)
 
 	i = 0;
 
+	if (!l)
+		return(0);
 	if (ft_strcmp(((t_all *)l->content)->cmd[0], "$?"))
 	{
 		s = ((t_all *)l->content)->cmd[0];
