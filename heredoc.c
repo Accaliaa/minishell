@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 17:04:34 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/14 16:24:37 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/14 19:17:19 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,16 @@ void	check_heredoc(t_list *l)
 {
 	int i;
 	int j;
-	int	n;
 	char *tmp;
 	char *line;
 	char *input;
-	int fd;
+	int fd[2];
 	char **split_line;
 
-	fd = 0;
-	n = 0;
 	line = "";
     cmd_loop(l);
 	while (l)
 	{
-		fd = 0;
 		i = 0;
 		j = ((t_all *)l->content)->hd;
 		if (j)
@@ -107,24 +103,19 @@ void	check_heredoc(t_list *l)
 				}
 				i++;
 			}
-		}
 		
 		split_line = ft_split(line, '/');
-		((t_all *)l->content)->fd = open("temp", O_CREAT | O_RDWR | O_APPEND, 0755);
-		pipe(((t_all *)l->content)->fd);
-		dup2(((t_all *)l->content)->fd, 1);
+		pipe(fd);
 		i = 0;
 		while(split_line[i])
 		{
-			ft_putstr_fd(split_line[i], fd);
+			ft_putstr_fd(split_line[i], fd[1]);
+			ft_putstr_fd("\n", fd[1]);
 			i++;
 		}
-	}
-		n++;
+		close(fd[1]);
+		((t_all *)l->content)->fd = fd[0];
+		}
 		l = l->next;
-		// if(n == ft_lstsize(l))
-		// {
-		// 	close(((t_all *)l->content)->fd);
-		// 	unlink("temp");
-		// }
+	}
 }

@@ -47,7 +47,7 @@ int		ft_cmp(char *s, char c);
 int		check_qoute(char *str);
 void	converter(char **envp,t_all *all);
 t_all	*ft_init(t_all *all);
-void		check_redirections(t_list *list);
+void	check_redirections(t_list *list);
 void	ft_exec(t_list *l, char **env);
 void	multiprocessing(t_list *l, char **envp);
 int		change_path(char *name_folder ,char **env);

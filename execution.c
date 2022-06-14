@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:29:17 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/14 14:34:27 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/14 20:17:45 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ void ft_exec (t_list *l, char **env)
 			if(n == 1)
 			{
 				if(((t_all *)l->content)->hd)
-					dup2(3, 0);
+					dup2(((t_all *)l->content)->fd, 0);
 				else
 					dup2(((t_all *)l->content)->inf[n_inf], 0);
 				close (fd[1]);
