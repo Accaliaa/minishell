@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 17:04:34 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/14 10:54:13 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/14 16:24:37 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ void get_delimiter(t_list *l, char *s, int *count)
 			while (s[j] != 32 && s[j] != '\n' && s[j] != '<' && s[j] && s[j] != '>')
 				j++;
 			delimiter = ft_substr(s, i + 2, j);
-			printf("size linked list : %i\n", ft_lstsize(l));
-			printf("count : %s\n", delimiter);
 			((t_all *)(l->content))->delimiter[*count] = delimiter;
-			printf("after\n");
 		    *count+= 1;
 		}
 		if (j)
@@ -53,7 +50,6 @@ void cmd_loop(t_list *l)
 	while (l)
 	{
 		count = 0;
-		printf(".....%i,,,,\n", ((t_all *)l->content)->hd);
 		((t_all *)l->content)->delimiter = malloc(sizeof(char *) * ((t_all *)l->content)->hd + 1);
 		i = 0;
 		j = 0;
@@ -83,22 +79,20 @@ void	check_heredoc(t_list *l)
 	int j;
 	int	n;
 	char *tmp;
-	char **line;
-	char *input = NULL;
+	char *line;
+	char *input;
 	int fd;
+	char **split_line;
 
 	fd = 0;
-    cmd_loop(l);
 	n = 0;
+	line = "";
+    cmd_loop(l);
 	while (l)
 	{
-		if (n > 0)
-			close(((t_all *)(l->prev->content))->fd);
 		fd = 0;
 		i = 0;
 		j = ((t_all *)l->content)->hd;
-		((t_all *)(l->content))->heredoc_line = "";
-		line = &(((t_all *)(l->content))->heredoc_line);
 		if (j)
 		{
 			while (i < j)
@@ -107,19 +101,30 @@ void	check_heredoc(t_list *l)
 				while (!ft_strcmp(input, ((t_all *)l->content)->delimiter[i]))
 				{
 				    tmp = ft_strjoin(input, "/");
-					*line = ft_strjoin(*line, tmp);
+					line = ft_strjoin(line, tmp);
 					input = readline("heredoc>");
 					free(tmp);
 				}
 				i++;
 			}
 		}
+		
+		split_line = ft_split(line, '/');
 		((t_all *)l->content)->fd = open("temp", O_CREAT | O_RDWR | O_APPEND, 0755);
-		fd = ((t_all *)l->content)->fd;
-		if (fd > 2)
-			ft_putstr_fd(*line, ((t_all *)l->content)->fd);
+		pipe(((t_all *)l->content)->fd);
+		dup2(((t_all *)l->content)->fd, 1);
+		i = 0;
+		while(split_line[i])
+		{
+			ft_putstr_fd(split_line[i], fd);
+			i++;
+		}
+	}
 		n++;
 		l = l->next;
-		
-	}
+		// if(n == ft_lstsize(l))
+		// {
+		// 	close(((t_all *)l->content)->fd);
+		// 	unlink("temp");
+		// }
 }

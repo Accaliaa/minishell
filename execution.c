@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:29:17 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/14 12:16:00 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/14 14:34:27 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ void ft_exec (t_list *l, char **env)
    int in = 0;
    int	node = 0;
    int ev = 0;
+   int n_inf;
    get_path(env, &p);
    
   if(check_dollar(l))
@@ -193,8 +194,6 @@ void ft_exec (t_list *l, char **env)
   {
 	while(l)
 	{
-		
-		int n_inf;
 
 		n_inf = ((t_all *)l->content)->n_inf - 1;
 		if(n_inf < 0)

@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 09:43:36 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/13 21:36:01 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/14 14:35:10 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ void	handle_multi_infiles(char *s, t_list *list, int *count)
 
 	i = 0;
 	j = 0;
-	
-	printf("hellooooo\n");
+
 	while (s[j] && j + 1 <= (int)ft_strlen(s))
 	{
 		if (s[j] == '<' && s[j + 1] == '<')
@@ -102,7 +101,7 @@ void	check_redirections(t_list *list)
 			((t_all *)list->content)->inf = (int *)ft_calloc(1, sizeof(int));
 
 		while (s[i])
-		{	printf("hellllo\n");
+		{
 			if (ft_cmp(s[i], '<') && ft_strlen(s[i]) == 1)
 			{
 				infile = s[i + 1];

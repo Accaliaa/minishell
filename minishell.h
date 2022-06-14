@@ -28,7 +28,6 @@ typedef struct s_all
     int		*outf;	
 	int		n_outf;
 	char **delimiter;
-    char *heredoc_line;
 	int fd;
 } t_all;
 
