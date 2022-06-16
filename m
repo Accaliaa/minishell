@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 17:04:34 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/16 12:31:01 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/14 19:17:19 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void cmd_loop(t_list *l)
 				if ( ft_strlen(s[i]) == 2 && s[i][j] == '<' && s[i][j + 1] == '<')
 				{
 					delimiter = s[i + 1];
-					printf("delimiter : \n");
 					((t_all *)l->content)->delimiter[count] = delimiter;
 				}
 				else
