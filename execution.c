@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:29:17 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/17 12:19:16 by skadi            ###   ########.fr       */
+/*   Updated: 2022/06/18 13:52:30 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ char *get_ev(t_pipe *p, t_list *l)
 		cmd = ((t_all *)l->content)->ccmd[0];
 		tmp = ft_strjoin(p->splitpaths[i], "/");
 		cmd = ft_strjoin(tmp, cmd);
-		
 		free(tmp);
 		p->ev = 0;
 		if (access(cmd, F_OK) == 0)
@@ -207,7 +206,11 @@ void ft_exec (t_list *l, char **env)
 				if(((t_all *)l->content)->hd)
 					dup2(((t_all *)l->content)->fd, 0);
 				else
-					dup2(((t_all *)l->content)->inf[n_inf], 0);
+				{	if(n_inf == 0)
+							dup2(in, 0);
+						else
+							dup2(((t_all *)l->content)->inf[n_inf], 0);
+				}
 				close (fd[1]);
 				close (fd[0]);
 			}
@@ -216,7 +219,12 @@ void ft_exec (t_list *l, char **env)
 				if(((t_all *)l->content)->hd)
 					dup2(((t_all *)l->content)->fd, 0);
 				else
-					dup2(((t_all *)l->content)->inf[n_inf], 0);
+					{
+						if(n_inf == 0)
+							dup2(in, 0);
+						else
+							dup2(((t_all *)l->content)->inf[n_inf], 0);
+					}
 				dup2(fd[1], 1);
 				close (fd[1]);
 				close (fd[0]);

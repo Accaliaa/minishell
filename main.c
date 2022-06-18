@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:11:06 by omeslall          #+#    #+#             */
-/*   Updated: 2022/06/18 12:22:35 by skadi            ###   ########.fr       */
+/*   Updated: 2022/06/18 13:46:11 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ t_list *ft_filtre(char *line, t_all *all)
 	pipe = ft_split(line,'|');
 	while (pipe[i])
 	{	
-		all = ft_init(all);	
 		temp = ft_lstnew(all);
 		sp = ft_split(pipe[i], 32);
 		k = 0;
@@ -56,6 +55,7 @@ t_list *ft_filtre(char *line, t_all *all)
 		ft_lstadd_back(&l,temp);
 		i++;
 	}
+	free(pipe);
 	return (l);
 }
 

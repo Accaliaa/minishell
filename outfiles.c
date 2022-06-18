@@ -6,7 +6,7 @@
 /*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 11:15:47 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/13 20:26:03 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/18 13:17:51 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	handle_long(char *s, t_list *list)
 				i++;
 			outfile = ft_substr(s, j + 1, i - 1);
 			((t_all *)list->content)->outf[count] = open(outfile, O_CREAT | O_RDWR | O_TRUNC, 0755);
+			free(outfile);
 			count++;
 		}
 		if (s[j] == '>' && s[j + 1] == '>' )
@@ -61,6 +62,7 @@ void	handle_long(char *s, t_list *list)
 				i++;
 			outfile = ft_substr(s, j + 2, i - 1);
 			((t_all *)list->content)->outf[count] = open(outfile, O_CREAT | O_RDWR | O_APPEND, 0755);
+			free(outfile);
 			count++;
 		}
 		

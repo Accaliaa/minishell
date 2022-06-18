@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 17:04:34 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/16 16:15:13 by skadi            ###   ########.fr       */
+/*   Updated: 2022/06/18 13:08:06 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void get_delimiter(t_list *l, char *s, int *count)
 	
 	i = 0;
 	j = 0;
+	delimiter = NULL;
 	while (s[i] && i + 1 <= (int)ft_strlen(s))
 	{
 		if (s[i] == '<' && s[i + 1] == '<' && ft_strlen(s) > 2)
@@ -116,6 +117,7 @@ void	check_heredoc(t_list *l)
 		}
 		close(fd[1]);
 		((t_all *)l->content)->fd = fd[0];
+		free(split_line);
 		}
 		l = l->next;
 	}

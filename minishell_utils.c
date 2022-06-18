@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 19:07:56 by omeslall          #+#    #+#             */
-/*   Updated: 2022/06/17 21:08:30 by skadi            ###   ########.fr       */
+/*   Updated: 2022/06/18 13:43:59 by zdasser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,10 @@ char *ft_redi(char *str, int *a)
 	char *c;
 	char *s;
 
+
 	closed = 0;
 	i = 0;
-	s = ft_strdup(" ");
+	s = " ";
 	c = ft_strdup(" ");
 	while (str[i])
 	{
@@ -84,6 +85,7 @@ char *ft_redi(char *str, int *a)
 		s = ft_strjoin(s, c);
 		i++;
 	}
+	free(c);
 	return(s);
 }
 
@@ -93,15 +95,19 @@ char **ft_ccmd(char **cmd)
 	int a;
 	char *temp;
 	char **s;
+	char *fr;
+	
 	i = 0;
 	a = 0;
 	temp = " ";
-	
 	while (cmd[i])
 	{
-		temp = ft_strjoin(temp, ft_redi(cmd[i],&a));
+		fr = ft_redi(cmd[i],&a);
+		temp = ft_strjoin(temp, fr);
+		free(fr);
 		i++;
 	}
 	s = ft_split(temp, 32);
+	free(temp);
 	return (s);
  }
