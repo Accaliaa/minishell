@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
+/*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:11:06 by omeslall          #+#    #+#             */
-/*   Updated: 2022/06/16 11:32:29 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/18 12:22:35 by skadi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ t_list *ft_filtre(char *line, t_all *all)
 	{	
 		all = ft_init(all);	
 		temp = ft_lstnew(all);
-		sp = ft_split(pipe[i],' ');
+		sp = ft_split(pipe[i], 32);
 		k = 0;
-		((t_all *)temp->content)->cmd = sp;
-		((t_all *)temp->content)->ccmd = ft_ccmd(sp);
+		((t_all *)(temp->content))->cmd = sp;
+		((t_all *)(temp->content))->ccmd = ft_ccmd(sp);
 		ft_lstadd_back(&l,temp);
 		i++;
 	}
@@ -67,6 +67,7 @@ void    minishell(char *line,t_all *all, char **env)
 	check_redirections(filtre);
 	check_outfiles(filtre);
 	check_heredoc(filtre);
+	check_var(filtre);
     ft_exec(filtre, env);
 }
 
@@ -83,7 +84,7 @@ int main(int ac,char **av,char **envp)
 	all->envp = envp;
 	converter(envp, all);
 	if (ac == 1)
-	{    
+	{
 		while(1)
 		{
 			line = readline("\033[0;35mminishell:& \033[0;37m");

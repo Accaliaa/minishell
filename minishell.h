@@ -13,8 +13,7 @@
 #include <fcntl.h>
 #include <signal.h>
 
-#define S_QUOTE '\''
-#define D_QUOTE '"'
+
 
 typedef struct s_all
 {
@@ -39,6 +38,11 @@ typedef struct s_p {
 	int ev;
 }	t_pipe;
 
+typedef struct s_var {
+	char *name;
+	char *content;
+} t_var;
+
 void	parse(char s);
 int		handle_errors(char *argv);
 int		handle_characters(char *s, int i);
@@ -58,5 +62,6 @@ int		check_dollar(t_list *l);
 void	check_outfiles(t_list *list);
 int		ft_strcmp(const char *s1, const char *s2);
 void	check_heredoc(t_list *l);
-
+void    take_quotes(char *s, char c);
+void	check_var(t_list *l);
 #endif

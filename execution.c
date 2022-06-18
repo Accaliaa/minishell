@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
+/*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:29:17 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/14 20:17:45 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/17 12:19:16 by skadi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,6 @@ void	get_path(char **env, t_pipe *p)
 		exit (write(2, "error\n", 6));
 }
 
-
 void ft_exec (t_list *l, char **env)
 {
    int fd [2];
@@ -194,10 +193,11 @@ void ft_exec (t_list *l, char **env)
   {
 	while(l)
 	{
-
+		
 		n_inf = ((t_all *)l->content)->n_inf - 1;
 		if(n_inf < 0)
 			n_inf = 0;
+		
 		pipe(fd);
 		i = 0;
 		if(fork() == 0)

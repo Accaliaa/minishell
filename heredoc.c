@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
+/*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 17:04:34 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/16 12:31:01 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/16 16:15:13 by skadi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@ void get_delimiter(t_list *l, char *s, int *count)
 	{
 		if (s[i] == '<' && s[i + 1] == '<' && ft_strlen(s) > 2)
 		{
-		
 			j = i + 2;
 			while (s[j] != 32 && s[j] != '\n' && s[j] != '<' && s[j] && s[j] != '>')
 				j++;
 			delimiter = ft_substr(s, i + 2, j);
+			take_quotes(delimiter, 39);
+			take_quotes(delimiter, '"');
 			((t_all *)(l->content))->delimiter[*count] = delimiter;
 		    *count+= 1;
 		}
@@ -61,7 +62,6 @@ void cmd_loop(t_list *l)
 				if ( ft_strlen(s[i]) == 2 && s[i][j] == '<' && s[i][j + 1] == '<')
 				{
 					delimiter = s[i + 1];
-					printf("delimiter : \n");
 					((t_all *)l->content)->delimiter[count] = delimiter;
 				}
 				else

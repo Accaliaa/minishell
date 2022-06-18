@@ -3,21 +3,20 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+         #
+#    By: skadi <skadi@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/26 14:10:46 by zdasser           #+#    #+#              #
-#    Updated: 2022/06/14 11:43:52 by zdasser          ###   ########.fr        #
+#    Updated: 2022/06/18 12:21:56 by skadi            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRC = main.c error_handling.c minishell_utils.c execution.c cd.c heredoc.c outfiles.c redirections.c exit_value.c\
+SRC = main.c error_handling.c env_var.c minishell_utils.c execution.c cd.c heredoc.c outfiles.c redirections.c exit_value.c\
 
-CC = @gcc -g -lreadline 
-# -fsanitize=address
+CC = @gcc -g -lreadline
 
-CFLAGS = -Wall -Wextra -Werror -g  -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 
 LIBFT = libft/libft.a
 
