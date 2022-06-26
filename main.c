@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
+/*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:11:06 by omeslall          #+#    #+#             */
-/*   Updated: 2022/06/18 13:46:11 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/26 01:03:46 by skadi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,28 +59,44 @@ t_list *ft_filtre(char *line, t_all *all)
 	return (l);
 }
 
-void    minishell(char *line,t_all *all, char **env)
+void    minishell(char *line, t_all *all, char **env, t_var *var)
 {
 	t_list *filtre;
 	(void) env;
+	int j;
 	filtre = ft_filtre(line,all);
 	check_redirections(filtre);
 	check_outfiles(filtre);
 	check_heredoc(filtre);
 	check_var(filtre);
-    ft_exec(filtre, env);
+	j = var_dec(filtre, var);
+    if (!j)
+		ft_exec(filtre, env);	
+	// t_list *tmp;
+	//  tmp = ((t_all *)(filtre->content))->lenvp;
+    //  //while(tmp)
+	// //{
+	//  	tmp = ft_lstlast(((t_all *)(filtre->content))->lenvp);
+	//  	printf("%s\n", (char *)tmp->content);
+	//  	//tmp = ((t_all *)(filtre->content))->lenvp->next;
+	// // }
 }
 
 int main(int ac,char **av,char **envp)
 {
 	char *line;
 	t_all *all;
+	t_var *var;
 
 	if (!av || !envp)
 		return(0);
 	// signal(SIGINT, handle_sigint);
 	// signal(SIGQUIT, handle_sigquit);
 	all = malloc(sizeof(t_all));
+	var = malloc(sizeof(t_var));
+	var->name = (char **)ft_calloc(2, sizeof(char *));
+	var->name[0] = (char *)ft_calloc(4, sizeof(char));
+	var->i = 0;
 	all->envp = envp;
 	converter(envp, all);
 	if (ac == 1)
@@ -93,7 +109,7 @@ int main(int ac,char **av,char **envp)
 			if(line)
 			{
 				if(handle_errors(line))
-					minishell(line,all, envp);	
+					minishell(line, all, envp, var);
 			}
 		}
 	}

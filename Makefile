@@ -6,17 +6,17 @@
 #    By: skadi <skadi@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/26 14:10:46 by zdasser           #+#    #+#              #
-#    Updated: 2022/06/18 12:21:56 by skadi            ###   ########.fr        #
+#    Updated: 2022/06/25 20:57:27 by skadi            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRC = main.c error_handling.c env_var.c minishell_utils.c execution.c cd.c heredoc.c outfiles.c redirections.c exit_value.c\
+SRC = main.c export.c error_handling.c env_var.c minishell_utils.c execution.c cd.c heredoc.c outfiles.c redirections.c exit_value.c\
 
 CC = @gcc -g -lreadline
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -fsanitize=address
 
 LIBFT = libft/libft.a
 

@@ -39,8 +39,8 @@ typedef struct s_p {
 }	t_pipe;
 
 typedef struct s_var {
-	char *name;
-	char *content;
+	char **name;
+	int	i;
 } t_var;
 
 void	parse(char s);
@@ -64,4 +64,8 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	check_heredoc(t_list *l);
 void    take_quotes(char *s, char c);
 void	check_var(t_list *l);
+void	get_var_value(char *s, t_var *data);
+char **realloc_char(char **s, int size);
+int	var_dec(t_list *l, t_var *data);
+int	ft_getsize(char *s);
 #endif

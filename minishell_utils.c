@@ -3,16 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
+/*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 19:07:56 by omeslall          #+#    #+#             */
-/*   Updated: 2022/06/18 13:43:59 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/26 00:47:58 by skadi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void converter(char **envp,t_all *all)
+int	ft_getsize(char *s)
+{
+	int	i;
+
+	i = 0;
+	while(s[i])
+		i++;
+	return(i);
+}
+
+int get_size_double(char **s)
+{
+	int	i;
+
+	i = 0;
+	while(s[i])
+		i++;
+	return(i);
+}
+
+char **realloc_char(char **s, int size)
+{
+    char **reallocated;
+    int size_init;
+	int	i;
+	
+	i = 0;
+    size_init = get_size_double(s);
+	if(size_init >= size)
+		return(s);
+    reallocated = (char **)ft_calloc(size, sizeof(char *));
+	while(s[i])
+	{
+		reallocated[i] = ft_calloc(ft_strlen(s[i]), sizeof(char));
+		reallocated[i] = s[i];
+		i++;
+	}
+    free(s);
+    return (reallocated);
+}
+
+
+void converter(char **envp, t_all *all)
 {
 	int i;
 	t_list *temp;
@@ -104,7 +146,8 @@ char **ft_ccmd(char **cmd)
 	{
 		fr = ft_redi(cmd[i],&a);
 		temp = ft_strjoin(temp, fr);
-		free(fr);
+		if(!ft_cmp(cmd[i], '>') && !ft_cmp(cmd[i], '<'))
+			free(fr);
 		i++;
 	}
 	s = ft_split(temp, 32);

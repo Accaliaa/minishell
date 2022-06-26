@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
+/*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 11:19:51 by skadi             #+#    #+#             */
-/*   Updated: 2022/06/18 12:41:47 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/25 21:01:32 by skadi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void check_var(t_list *l)
 				tmp = s[i];
 				get_var(((t_all *)(l->content))->lenvp, &s[i]);
 				free(tmp);
-				printf("here\n");
 			}
             i++;
         }
