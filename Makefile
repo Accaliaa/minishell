@@ -6,7 +6,7 @@
 #    By: skadi <skadi@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/26 14:10:46 by zdasser           #+#    #+#              #
-#    Updated: 2022/06/25 20:57:27 by skadi            ###   ########.fr        #
+#    Updated: 2022/06/29 19:25:22 by skadi            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRC = main.c export.c error_handling.c env_var.c minishell_utils.c execution.c c
 
 CC = @gcc -g -lreadline
 
-CFLAGS = -Wall -Wextra -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 
 LIBFT = libft/libft.a
 

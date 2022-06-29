@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdasser <zdasser@student.42.fr>            +#+  +:+       +#+        */
+/*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 16:29:17 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/18 13:52:30 by zdasser          ###   ########.fr       */
+/*   Updated: 2022/06/29 22:40:39 by skadi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,52 +193,31 @@ void ft_exec (t_list *l, char **env)
 	while(l)
 	{
 		
-		n_inf = ((t_all *)l->content)->n_inf - 1;
-		if(n_inf < 0)
-			n_inf = 0;
-		
+		n_inf = ((t_all *)l->content)->n_inf;
 		pipe(fd);
 		i = 0;
 		if(fork() == 0)
 		{
-			if(n == 1)
-			{
-				if(((t_all *)l->content)->hd)
-					dup2(((t_all *)l->content)->fd, 0);
-				else
-				{	if(n_inf == 0)
-							dup2(in, 0);
-						else
-							dup2(((t_all *)l->content)->inf[n_inf], 0);
-				}
-				close (fd[1]);
-				close (fd[0]);
-			}
-			else if(j == 0 && n > 1)
-			{
-				if(((t_all *)l->content)->hd)
-					dup2(((t_all *)l->content)->fd, 0);
-				else
-					{
-						if(n_inf == 0)
-							dup2(in, 0);
-						else
-							dup2(((t_all *)l->content)->inf[n_inf], 0);
-					}
-				dup2(fd[1], 1);
-				close (fd[1]);
-				close (fd[0]);
-			}
 			if(j < n - 1)
 			{
-				dup2(in, 0);
+				if(((t_all *)l->content)->hd)
+					dup2(((t_all *)l->content)->fd, 0);
+				else if(n_inf == 0)
+					dup2(in, 0);
+				else
+					dup2(((t_all *)l->content)->inf[n_inf - 1], 0);
 				dup2(fd[1], 1);
 				close (fd[1]);
 				close (fd[0]);
 			}
 			else
 			{
-				dup2(in, 0);
+				if(((t_all *)l->content)->hd)
+					dup2(((t_all *)l->content)->fd, 0);
+				else if(n_inf == 0)
+					dup2(in, 0);
+				else
+					dup2(((t_all *)l->content)->inf[n_inf - 1], 0);
 				dup2(((t_all *)l->content)->outf[0], 1);
 				close (fd[1]);
 				close (fd[0]);

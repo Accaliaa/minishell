@@ -6,7 +6,7 @@
 /*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 17:04:34 by zdasser           #+#    #+#             */
-/*   Updated: 2022/06/20 16:54:37 by skadi            ###   ########.fr       */
+/*   Updated: 2022/06/29 22:30:08 by skadi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,11 @@ void	check_heredoc(t_list *l)
 	{
 		i = 0;
 		j = ((t_all *)l->content)->hd;
+		
 		if (j)
 		{
 			while (i < j)
-			{
+			{printf("....j : %i \n", i);
 				input = readline("heredoc>");
 				while (!ft_strcmp(input, ((t_all *)l->content)->delimiter[i]))
 				{
@@ -118,6 +119,7 @@ void	check_heredoc(t_list *l)
 		close(fd[1]);
 		((t_all *)l->content)->fd = fd[0];
 		free(split_line);
+		
 		}
 		l = l->next;
 	}

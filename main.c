@@ -6,7 +6,7 @@
 /*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:11:06 by omeslall          #+#    #+#             */
-/*   Updated: 2022/06/27 17:27:19 by skadi            ###   ########.fr       */
+/*   Updated: 2022/06/29 22:28:35 by skadi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_list *ft_filtre(char *line, t_all *all)
 	pipe = ft_split(line,'|');
 	while (pipe[i])
 	{	
+		all = ft_init(all);	
 		temp = ft_lstnew(all);
 		sp = ft_split(pipe[i], 32);
 		k = 0;
