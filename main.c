@@ -6,7 +6,7 @@
 /*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:11:06 by omeslall          #+#    #+#             */
-/*   Updated: 2022/06/26 01:03:46 by skadi            ###   ########.fr       */
+/*   Updated: 2022/06/27 17:27:19 by skadi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void    minishell(char *line, t_all *all, char **env, t_var *var)
 	t_list *filtre;
 	(void) env;
 	int j;
+
+	j = 0;
 	filtre = ft_filtre(line,all);
 	check_redirections(filtre);
 	check_outfiles(filtre);

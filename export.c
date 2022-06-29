@@ -6,7 +6,7 @@
 /*   By: skadi <skadi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 16:41:39 by skadi             #+#    #+#             */
-/*   Updated: 2022/06/26 01:01:47 by skadi            ###   ########.fr       */
+/*   Updated: 2022/06/27 20:37:22 by skadi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,12 +117,15 @@ int var_dec(t_list *l, t_var *data)
     int j;
 
     i = 0;
+    j = 0;
     s = ((t_all *)(l->content))->ccmd;
     if(calculate_size(s) == 1)
     {
         if(ft_strcmp(s[0], "="))
-             get_var_value(s[0], data);
-        return(1);
+        {
+            get_var_value(s[0], data);
+            return(0);
+        }
     }
     else
        j = ft_export(l, data);
